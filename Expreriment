@@ -1,0 +1,667 @@
+Experiment No : 01
+ Experiment Name: A program to read a character from keyboard and display it on the screen.
+.model small
+ .stack 100h
+ .data
+ msg1 db 'Input: $'
+ msg2 db 0Dh, 0Ah, 'Output: $'
+ msg3 db 0Dh, 0Ah, 'this in not character $'
+ .code
+ main:
+ mov ax, @data
+ mov ds, ax
+ mov ah, 09h
+ lea dx, msg1
+ int 21h
+ mov ah, 01h
+ int 21h
+ mov cl, al
+ cmp cl,'A'
+ jl no_text
+ cmp cl,'Z'
+ jle Out_put
+cmp cl,'a'
+ jl no_text
+ cmp cl,'z'
+ jle Out_put
+ Out_put:
+ mov ah, 09h
+ lea dx, msg2
+ int 21h
+ mov ah, 02h
+ mov dl, cl
+ int 21h
+ jmp end_program
+ no_text:
+ mov ah,09h
+ lea dx,msg3
+ int 21h
+ jmp end_program
+ end_Program:
+ mov ah, 4Ch
+ int 21h
+ end main
+Experiment No : 02 
+Experiment Name: A program to display a string on the screen
+.model small
+ .stack 100h
+ .data
+ msg1 db 'This is a string $'
+ .code
+ main:
+ mov ax, @data
+ mov ds, ax
+ mov ah, 09h
+ lea dx, msg1
+ int 21h
+ mov ah, 4Ch
+ int 21h
+ end main
+Experiment No : 03 
+Experiment Name: A program for the summation of two digits
+data segment
+    num1 db ?
+    num2 db ?
+    res db ?
+    msg1 db 10,13,"enter the first number: $"
+    msg2 db 10,13,"enter the second number: $"
+    msg3 db 10,13,"result of addition is: $"
+data ends   
+
+assume cs:code,ds:data
+
+code segment
+    start: mov ax,data
+           mov ds,ax          
+           
+           lea dx,msg1        
+           mov ah,9h          
+           int 21h    
+           
+           mov ah,1h          
+           int 21h
+           sub al,30h          
+           mov num1,al         
+           
+           lea dx,msg2        
+           mov ah,9h           
+           int 21h    
+           
+           mov ah,1h           
+           int 21h
+           sub al,30h          
+           mov num2,al        
+           
+           add al,num1        
+           mov res,al         
+           mov ah,0          
+           aaa                
+           add ah,30h         
+           add al,30h         
+           
+           mov bx,ax          
+           lea dx,msg3        
+           mov ah,9h
+           int 21h
+           
+           mov ah,2h           
+           mov dl,bh                                
+           int 21h
+           
+           mov ah,2           
+           mov dl,bl
+           int 21h
+    
+           mov ah,4ch
+           int 21h
+    
+code ends
+end start
+Experiment No : 04  
+Experiment Name: A program for the subtraction of two digits.
+.model small
+ .stack 100h
+ .data
+ msg1 db 'Enter first digit: $'
+ msg2 db 0Dh, 0Ah, 'Enter second digit: $'
+ msg3 db 0Dh, 0Ah, 'Result is: $'
+ result db ?
+ msg4 db 0Dh, 0Ah, 'This is not valid input. Try again. $'
+ .code
+ main:
+ mov ax, @data
+ mov ds, ax
+ mov ah, 09h
+ lea dx, msg1
+ int 21h
+ mov ah, 01h
+ int 21h
+ cmp al, '0'
+ jl invalid_input
+ cmp al, '9'
+ jg invalid_input
+ sub al, '0'
+ mov bl, al
+ mov ah, 09h
+ lea dx, msg2
+ int 21h
+mov ah, 01h
+ int 21h 
+ cmp al, '0'
+ jl invalid_input
+ cmp al, '9'
+ jg invalid_input
+ sub al, '0'
+ sub bl, al
+ mov ah, 09h
+ lea dx, msg3
+ int 21h
+ cmp bl, 0
+ jge positive_result
+ mov ah, 02h
+ mov dl, '-'
+ int 21h
+ neg bl
+ positive_result:
+ add bl, '0'
+ mov ah, 02h   
+mov dl, bl
+ int 21h
+ jmp exit
+ invalid_input:
+ mov ah, 09h
+ lea dx, msg4
+ int 21h
+ exit:
+ mov ah, 4Ch
+ int 21h
+ end main
+Experiment No : 05  
+Experiment Name: Write a program Multiplication of two digits.
+.MODEL SMALL
+.STACK 100H
+.DATA
+ A DB "ENTER NUMERATOR : $"
+ B DB "ENTER NOMINATOR : $"
+
+ QUOTIENT DB "QUOTIENT IS : $"
+
+
+.CODE
+ MAIN PROC
+ MOV AX,@DATA
+ MOV DS,AX
+
+ LEA DX,A
+ MOV AH,9
+ INT 21H
+
+ MOV AH,1
+ INT 21H
+ SUB AL,48
+ MOV BL,AL
+
+ MOV AH,2
+ MOV DL,0DH
+ INT 21H
+ MOV DL,0AH
+ INT 21H
+
+ LEA DX,B
+ MOV AH,9
+ INT 21H
+
+ MOV AH,1
+ INT 21H
+ SUB AL,48
+ MOV BH,AL
+
+
+ MOV AH,2
+ MOV DL,0DH
+ INT 21H
+ MOV DL,0AH
+ INT 21H
+ MOV AL,BL
+ MOV AH,0
+ mul BH
+ aam
+ mov bh,ah
+ add bh,48
+
+ mov bl,al
+ add bl,48
+ LEA DX,QUOTIENT
+ MOV AH,9
+ INT 21H
+
+ MOV AH,2
+ MOV DL,Bh
+ INT 21H
+
+
+ MOV AH,2
+ MOV DL,BL
+ INT 21H
+
+
+ MOV AH,4CH
+ INT 21H
+
+ MAIN ENDP
+ END MAIN
+
+Experiment No : 06 
+Experiment Name: Write a program Division of two digits.
+.MODEL SMALL
+.STACK 100H
+.DATA
+ A DB "ENTER NUMERATOR : $"
+ B DB "ENTER NOMINATOR : $"
+ ERROR DB "SYNTAX ERROR $"
+ QUOTIENT DB "QUOTIENT IS : $"
+ REMAINDER DB "REMAINDER IS : $"
+
+.CODE
+ MAIN PROC
+ MOV AX,@DATA
+ MOV DS,AX
+
+ LEA DX,A
+ MOV AH,9
+ INT 21H
+ 
+ MOV AH,1
+ INT 21H
+
+ SUB AL,48
+ MOV BL,AL
+
+ MOV AH,2
+ MOV DL,0DH
+ INT 21H
+ MOV DL,0AH
+ INT 21H
+
+ LEA DX,B
+ MOV AH,9
+ INT 21H
+
+ MOV AH,1
+ INT 21H
+
+ SUB AL,48
+ MOV BH,AL
+
+ MOV AH,2
+ MOV DL,0DH
+ INT 21H
+ MOV DL,0AH
+ INT 21H
+
+ CMP BH,0
+ JE ERR
+
+ MOV AL,BL
+ MOV AH,0
+
+ DIV BH
+
+ ADD AL,48
+ MOV BL,AL
+
+ ADD AH,48
+ MOV BH,AH
+
+ LEA DX,QUOTIENT
+ MOV AH,9
+ INT 21H
+
+ MOV AH,2
+ MOV DL,BL
+ INT 21H
+
+ MOV AH,2
+ MOV DL,0DH
+ INT 21H
+ MOV DL,0AH
+ INT 21H
+
+ LEA DX,REMAINDER
+ MOV AH,9
+ INT 21H
+
+ MOV AH,2
+ MOV DL,BH
+ INT 21H
+
+ MOV AH,4CH
+ INT 21H
+
+ ERR:
+ LEA DX,ERROR
+ MOV AH,9
+ INT 21H
+
+ MOV AH,4CH
+ INT 21H
+
+ MAIN ENDP
+ END MAIN
+
+Experiment No : 07 
+Experiment Name: A program for converting a Uppercase character to lower case.
+.model small
+ .stack 100h
+ .data
+ msg1 db 'Enter an uppercase letter: $'
+ msg2 db 0Dh, 0Ah, 'The lowercase letter is: $'
+ errorMsg db 0Dh, 0Ah, 'Invalid input. Please enter an uppercase letter. $'
+ .code
+ main:
+ mov ax, @data
+ mov ds, ax
+ mov ah, 09h
+ lea dx, msg1
+ int 21h
+ mov ah, 01h
+ int 21h
+ cmp al, 'A'
+ jl invalid
+ cmp al, 'Z'
+ jg invalid
+ mov bl,al
+ add bl,32
+ mov ah, 09h
+ lea dx, msg2
+ int 21h
+ mov ah, 02h
+mov dl, bl
+ int 21h
+ jmp exit
+ invalid:
+ mov ah, 09h
+ lea dx, errorMsg
+ int 21h
+ exit:
+ mov ah, 4Ch
+ int 21h
+ end main
+Experiment No : 08  
+Experiment Name: A program for converting a lowercase character to Uppercase.
+.model small
+ .stack 100h
+ .data
+ msg1 db 'Enter an lowercase letter: $'
+ msg2 db 0Dh, 0Ah, 'The uppercase letter is: $'
+ errorMsg db 0Dh, 0Ah, 'Invalid input. Please enter an uppercase letter. $'
+ .code
+ main:
+ mov ax, @data
+ mov ds, ax
+ mov ah, 09h
+ lea dx, msg1
+ int 21h
+ mov ah, 01h
+ int 21h
+ cmp al, 'a'
+ jl invalid
+ cmp al, 'z'
+ jg invalid
+ mov bl,al
+ sub bl,32
+ mov ah, 09h
+ lea dx, msg2
+ int 21h
+ mov ah, 02h
+mov dl, bl
+ int 21h
+ jmp exit
+ invalid:
+ mov ah, 09h
+ lea dx, errorMsg
+ int 21h
+ exit:
+ mov ah, 4Ch
+ int 21h
+ end main
+Experiment No : 09 
+Experiment Name: A program to Find the Smallest Between Two Numbers
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    MSG1 DB "ENTER FIRST NUMBER: $"
+    MSG2 DB "ENTER SECOND NUMBER: $"
+    MSG3 DB "SMALLEST NUMBER IS: $" 
+    MSG4 DB "BOTH ARE EQUAL $"
+    
+    NUM1 DB 0       
+    NUM2 DB 0        
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+
+   
+    LEA DX, MSG1
+    MOV AH, 9
+    INT 21H    
+    
+
+   
+    MOV AH, 1
+    INT 21H
+    SUB AL, 30H      
+    MOV NUM1, AL
+
+    
+  
+    MOV AH, 2
+    MOV DL, 0DH  
+    INT 21H
+    MOV DL, 0AH
+    INT 21H
+    
+   
+    LEA DX, MSG2
+    MOV AH, 9
+    INT 21H     
+    
+    
+
+  
+    MOV AH, 1
+    INT 21H
+    SUB AL, 30H       
+    MOV NUM2, AL
+
+
+    MOV AL, NUM1
+    CMP AL, NUM2
+    JL DISPLAY_FIRST 
+    JE EQUAL 
+    
+    
+
+    MOV AH, 2
+    MOV DL, 0DH  
+    INT 21H
+    MOV DL, 0AH
+    INT 21H
+    
+    LEA DX, MSG3
+    MOV AH, 9
+    INT 21H
+    
+    MOV AL, NUM2
+    ADD AL, 30H       
+    MOV DL, AL
+    MOV AH, 2
+    INT 21H     
+    
+    JMP EXIT
+          
+
+DISPLAY_FIRST: 
+
+ 
+    MOV AH, 2
+    MOV DL, 0DH  
+    INT 21H
+    MOV DL, 0AH
+    INT 21H
+    
+    LEA DX, MSG3
+    MOV AH, 9
+    INT 21H
+    
+    MOV AL, NUM1
+    ADD AL, 30H       
+    MOV DL, AL
+    MOV AH, 2
+    INT 21H           
+    
+    JMP EXIT 
+    
+    
+EQUAL:  
+       
+
+    MOV AH, 2
+    MOV DL, 0DH  
+    INT 21H
+    MOV DL, 0AH
+    INT 21H  
+
+    LEA DX, MSG4
+    MOV AH, 9
+    INT 21H
+
+EXIT: 
+
+    MOV AH, 4CH
+    INT 21H
+
+MAIN ENDP
+END MAIN
+Experiment No : 10 
+ Experiment Name: A program to Find the Largest Between Two Numbers.
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    MSG1 DB "ENTER FIRST NUMBER: $"
+    MSG2 DB "ENTER SECOND NUMBER: $"
+    MSG3 DB "LARGEST  NUMBER IS: $" 
+    MSG4 DB "BOTH ARE EQUAL $"
+    
+    NUM1 DB 0       
+    NUM2 DB 0       
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+
+  
+    LEA DX, MSG1
+    MOV AH, 9
+    INT 21H    
+    
+
+
+    MOV AH, 1
+    INT 21H
+    SUB AL, 30H      
+    MOV NUM1, AL
+
+    
+
+    MOV AH, 2
+    MOV DL, 0DH  
+    INT 21H
+    MOV DL, 0AH
+    INT 21H
+    
+  
+    LEA DX, MSG2
+    MOV AH, 9
+    INT 21H     
+    
+    
+
+  
+    MOV AH, 1
+    INT 21H
+    SUB AL, 30H       
+    MOV NUM2, AL
+
+  
+    MOV AL, NUM1
+    CMP AL, NUM2
+    JG DISPLAY_FIRST 
+    JE EQUAL 
+    
+    
+
+    MOV AH, 2
+    MOV DL, 0DH  
+    INT 21H
+    MOV DL, 0AH
+    INT 21H
+    
+    LEA DX, MSG3
+    MOV AH, 9
+    INT 21H
+    
+    MOV AL, NUM2
+    ADD AL, 30H       
+    MOV DL, AL
+    MOV AH, 2
+    INT 21H     
+    
+    JMP EXIT
+          
+
+DISPLAY_FIRST: 
+
+  
+    MOV AH, 2
+    MOV DL, 0DH  
+    INT 21H
+    MOV DL, 0AH
+    INT 21H
+    
+    LEA DX, MSG3
+    MOV AH, 9
+    INT 21H
+    
+    MOV AL, NUM1
+    ADD AL, 30H       
+    MOV DL, AL
+    MOV AH, 2
+    INT 21H           
+    JMP EXIT 
+    
+    
+EQUAL:  
+
+    MOV AH, 2
+    MOV DL, 0DH  
+    INT 21H
+    MOV DL, 0AH
+    INT 21H  
+
+    LEA DX, MSG4
+    MOV AH, 9
+    INT 21H
+
+EXIT: 
+
+    MOV AH, 4CH
+    INT 21H
+
+MAIN ENDP
+END MAIN
