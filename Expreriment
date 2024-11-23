@@ -41,6 +41,9 @@ cmp cl,'a'
  mov ah, 4Ch
  int 21h
  end main
+
+
+
 Experiment No : 02 
 Experiment Name: A program to display a string on the screen
 .model small
@@ -57,66 +60,100 @@ Experiment Name: A program to display a string on the screen
  mov ah, 4Ch
  int 21h
  end main
+
+
+
 Experiment No : 03 
 Experiment Name: A program for the summation of two digits
-data segment
-    num1 db ?
-    num2 db ?
-    res db ?
-    msg1 db 10,13,"enter the first number: $"
-    msg2 db 10,13,"enter the second number: $"
-    msg3 db 10,13,"result of addition is: $"
-data ends   
+.model small
+.stack 100h
+.data   
 
-assume cs:code,ds:data
+msg1 db 'Enter two digit: $'
+msg2 db 0dh, 0ah, 'Summation is: $'    
+msg3 db 0dh, 0ah, 'Wrong input $'
 
-code segment
-    start: mov ax,data
-           mov ds,ax          
-           
-           lea dx,msg1        
-           mov ah,9h          
-           int 21h    
-           
-           mov ah,1h          
-           int 21h
-           sub al,30h          
-           mov num1,al         
-           
-           lea dx,msg2        
-           mov ah,9h           
-           int 21h    
-           
-           mov ah,1h           
-           int 21h
-           sub al,30h          
-           mov num2,al        
-           
-           add al,num1        
-           mov res,al         
-           mov ah,0          
-           aaa                
-           add ah,30h         
-           add al,30h         
-           
-           mov bx,ax          
-           lea dx,msg3        
-           mov ah,9h
-           int 21h
-           
-           mov ah,2h           
-           mov dl,bh                                
-           int 21h
-           
-           mov ah,2           
-           mov dl,bl
-           int 21h
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
     
-           mov ah,4ch
-           int 21h
+    mov ah, 09h
+    lea dx, msg1
+    int 21h      
     
-code ends
-end start
+    mov ah, 01h 
+    int 21h   
+    
+    cmp al,'0'
+    jl wrong_input 
+    cmp al,'9'
+    jg wrong_input
+    
+    sub al, 30h
+    mov bl, al
+    
+    
+    mov ah, 02h
+    mov dl, 0dh
+    int 21h
+    mov dl, 0ah
+    int 21h
+     
+    mov ah, 01h
+    int 21h 
+    
+    cmp al,'0'
+    jl wrong_input 
+    cmp al,'9'
+    jg wrong_input
+     
+    sub al, 30h
+    mov cl, al
+    
+    
+    add bl,cl   
+    mov ax, 0
+    
+    mov al, bl
+    mov cl, 10
+    div cl
+    
+    mov bl, al
+    add bl, '0'
+    
+    mov cl, ah
+    add cl, '0'
+    
+    
+    mov ah, 02h
+    mov dl, 0dh
+    int 21h
+    mov dl, 0ah
+    int 21h
+    
+
+    mov ah, 02h
+    mov dl, bl
+    int 21h   
+    
+    mov dl, cl
+    int 21h
+    jmp end_program
+    
+    wrong_input:
+    mov ah, 09h
+    lea dx, msg3
+    int 21h
+    jmp end_program
+           
+    end_program:       
+    mov ah, 4ch
+    int 21h
+    end main
+
+
+
 Experiment No : 04  
 Experiment Name: A program for the subtraction of two digits.
 .model small
@@ -176,88 +213,93 @@ mov dl, bl
  mov ah, 4Ch
  int 21h
  end main
+
+
 Experiment No : 05  
 Experiment Name: Write a program Multiplication of two digits.
-.MODEL SMALL
-.STACK 100H
-.DATA
- A DB "ENTER NUMERATOR : $"
- B DB "ENTER NOMINATOR : $"
+.model small
+.stack 100h
+.data
+msg1 db "First input: $"
+msg2 db 0dh,0ah, "Second input: $"
+msg3 db 0dh,0ah, "Wrong input. $"
+msg4 db 0dh,0ah, "Result is: $"
 
- QUOTIENT DB "QUOTIENT IS : $"
+.code
+main proc
+    mov ax,@DATA
+    mov ds,ax
+    
+    mov ah,9h
+    lea dx,msg1
+    int 21h
+    
+    mov ah,01h
+    int 21h
+    cmp al,'0'
+    jl wrong_input
+    cmp al,'9'
+    jg wrong_input
+    
+    
+    sub al,'0'
+    mov bl,al
+    
+    mov ah,9h
+    lea dx,msg2
+    int 21h
+    
+    mov ah,01h
+    int 21h
+    cmp al,'0'
+    jl wrong_input
+    cmp al,'9'
+    jg wrong_input
+    
+    sub al,'0'
+    
+    
+    mul bl 
+    mov cl, 10
+    div cl
+    mov bl, al
+    add bl, '0'
+    mov bh, ah 
+    add bh, '0'
+    
+    mov ah, 09h
+    lea dx, msg4
+    int 21h
+    
+    mov ah, 02h
+    mov dl, bl
+    int 21h
+    mov dl, bh
+    int 21h
+    jmp end_proc   
+       
+    
+    wrong_input:
+    mov ah,9h
+    lea dx,msg3
+    int 21h
+    jmp end_proc
+    
+    
+    end_proc:
+    mov ah,4ch
+    int 21h
+    end main
 
 
-.CODE
- MAIN PROC
- MOV AX,@DATA
- MOV DS,AX
-
- LEA DX,A
- MOV AH,9
- INT 21H
-
- MOV AH,1
- INT 21H
- SUB AL,48
- MOV BL,AL
-
- MOV AH,2
- MOV DL,0DH
- INT 21H
- MOV DL,0AH
- INT 21H
-
- LEA DX,B
- MOV AH,9
- INT 21H
-
- MOV AH,1
- INT 21H
- SUB AL,48
- MOV BH,AL
-
-
- MOV AH,2
- MOV DL,0DH
- INT 21H
- MOV DL,0AH
- INT 21H
- MOV AL,BL
- MOV AH,0
- mul BH
- aam
- mov bh,ah
- add bh,48
-
- mov bl,al
- add bl,48
- LEA DX,QUOTIENT
- MOV AH,9
- INT 21H
-
- MOV AH,2
- MOV DL,Bh
- INT 21H
-
-
- MOV AH,2
- MOV DL,BL
- INT 21H
-
-
- MOV AH,4CH
- INT 21H
-
- MAIN ENDP
- END MAIN
-
+    
 Experiment No : 06 
 Experiment Name: Write a program Division of two digits.
 .MODEL SMALL
 .STACK 100H
 .DATA
- A DB "ENTER NUMERATOR : $"
- B DB "ENTER NOMINATOR : $"
+ A DB "ENTER DIVIDEND : $"
+ B DB "ENTER DIVISOR : $"
  ERROR DB "SYNTAX ERROR $"
  QUOTIENT DB "QUOTIENT IS : $"
  REMAINDER DB "REMAINDER IS : $"
@@ -349,6 +391,8 @@ Experiment Name: Write a program Division of two digits.
  MAIN ENDP
  END MAIN
 
+
+
 Experiment No : 07 
 Experiment Name: A program for converting a Uppercase character to lower case.
 .model small
@@ -387,6 +431,9 @@ mov dl, bl
  mov ah, 4Ch
  int 21h
  end main
+
+
+
 Experiment No : 08  
 Experiment Name: A program for converting a lowercase character to Uppercase.
 .model small
@@ -425,6 +472,9 @@ mov dl, bl
  mov ah, 4Ch
  int 21h
  end main
+
+
+
 Experiment No : 09 
 Experiment Name: A program to Find the Smallest Between Two Numbers
 .MODEL SMALL
@@ -546,6 +596,9 @@ EXIT:
 
 MAIN ENDP
 END MAIN
+
+
+
 Experiment No : 10 
  Experiment Name: A program to Find the Largest Between Two Numbers.
 .MODEL SMALL
