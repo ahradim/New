@@ -1,0 +1,42 @@
+% ===============================
+% Thesis/Research Paper Title Page (Overleaf)
+% ===============================
+\documentclass[12pt,oneside]{report}
+
+% ---- Packages ----
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\begin{document}
+
+% ---------------- Title Page ----------------
+\begin{titlepage}
+    \centering
+    {\Large \bfseries PNEUMONIA -- A THREAT TO THOUSAND LIVES}\\[3cm]
+
+    % University Logo (replace with your actual logo file, e.g., logo.png)
+    \includegraphics[width=0.25\textwidth]{image_1.png}\\[2.5cm]
+
+    {\large A Natural Science 1 Research Requirement}\\[0.5cm]
+    {Presented to}\\[0.2cm]
+    {\bfseries MD. TUHIN REZA}\\[0.2cm]
+    {Assistant Professor (CSE)}\\
+    {Faridpur Engineering College}\\
+    {Faridpur}\\[2cm]
+
+    {In Partial Fulfillment}\\
+    {of the Requirements in NS 1}\\[0.5cm]
+    {3rd Semester, 2nd Term S.Y.~2020--2021}\\[2cm]
+by\\
+    {Azizul Hakim Topo}\\[0.1cm]
+    {Reg. No: 1020}\\[1.1cm]
+
+{September 2025}
+\end{titlepage}
+% ---------------------------------------------
+
+\end{document}
